@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal class map
+    internal class Map
     {
         private int width;
         private int height;
         private cell[,] cells;
+        private cell start;
 
         public int Width { get { return width; } }
 
         public int Height { get { return height; } }
         
         public cell[,] Cells { get { return cells; } }
+
+        public cell Start { get { return start; } }
         
-        public map(int width, int height)
+        public Map(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -35,6 +38,8 @@ namespace RobotNavigation
         public void setCell(int x, int y, cellType aType)
         {
             cells[x, y].Type = aType;
+            if(aType == cellType.START)
+                start = cells[x, y];
         }
 
         // print the map format into the console

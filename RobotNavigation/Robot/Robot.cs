@@ -14,10 +14,16 @@ namespace RobotNavigation
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
 
-        public Robot(int x, int y)
+        public Robot(int aX, int aY)
         {
-            _x = x;
-            _y = y;
+            _x = aX;
+            _y = aY;
+        }
+
+        public Robot(Robot aRobot)
+        {
+            _x = aRobot.X;
+            _y = aRobot.Y;
         }
 
         public void Move(Instruction instruction)
@@ -38,5 +44,6 @@ namespace RobotNavigation
                     break;
             }
         }
+
     }
 }

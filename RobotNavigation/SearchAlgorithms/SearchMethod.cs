@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RobotNavigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,19 @@ namespace RobotNavigation
 {
     internal abstract class SearchMethod
     {
-        protected Robot robot;
-        protected map environment;
-        protected List<cell> frontier;
+        protected RobotScenario _scenario;
+        protected Map _map;
+        protected LinkedList<RobotScenario> _frontier;
 
-        public map Environment { get { return environment; } }
+        public LinkedList<RobotScenario> Frontier { get { return _frontier; } }
 
-        public List<cell> Frontier { get { return frontier; } }
-
-        public SearchMethod(Robot aRobot, map aMap)
+        public SearchMethod(Map aMap)
         {
-            robot = aRobot;
-            environment = aMap;
+            _map = aMap;
+            cell Start = _map.Start;
 
-            frontier = new List<cell>();
-            frontier.Add(environment.Cells[robot.X, robot.Y]);
+            _frontier = new LinkedList<RobotScenario>();
+            _frontier.AddFirst(new RobotScenario(_map, new Robot(Start.X, Start.Y)));
         }
 
         public abstract void findPath();

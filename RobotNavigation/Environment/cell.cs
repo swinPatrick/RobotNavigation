@@ -16,25 +16,29 @@ namespace RobotNavigation
 
     internal class cell
     {
-        private int x;
-        private int y;
-        private cellType type;
+        private int _x;
+        private int _y;
+        private cellType _type;
+        private bool _visited;
 
-        public int X { get { return x; } }
+        public int X { get { return _x; } }
 
-        public int Y { get { return y; } }
+        public int Y { get { return _y; } }
+
+        public bool Visited { get { return _visited; } set { _visited = value; } }
 
         public cellType Type
         {
-            get { return type; }
-            set { type = value; }
+            get { return _type; }
+            set { _type = value; }
         }
 
         public cell(int aX, int aY, cellType aType)
         {
-            x = aX;
-            y = aY;
-            type = aType;
+            _x = aX;
+            _y = aY;
+            _type = aType;
+            _visited = false;
         }
     }
 }

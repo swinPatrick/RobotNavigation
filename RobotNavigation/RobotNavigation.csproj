@@ -50,6 +50,7 @@
     <Compile Include="Environment\readMap.cs" />
     <Compile Include="Robot\Instruction.cs" />
     <Compile Include="Robot\Robot.cs" />
+    <Compile Include="Robot\RobotScenario.cs" />
     <Compile Include="SearchAlgorithms\DepthFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\SearchMethod.cs" />
   </ItemGroup>

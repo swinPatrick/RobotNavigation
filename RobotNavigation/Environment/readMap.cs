@@ -9,7 +9,7 @@ namespace RobotNavigation
 {
     internal class readMap
     {
-        public static map readMapFromFile(string filename)
+        public static Map readMapFromFile(string filename)
         {
             // char array of characters to remove from begining and end of lines
             char[] trimChars = { ' ', '(', ')', '[', ']' };
@@ -22,7 +22,7 @@ namespace RobotNavigation
             string[] size = lines[0].Trim(trimChars).Split(',');
             int width = int.Parse( size[1] );
             int height = int.Parse(size[0] );
-            map lMap = new map(width, height);
+            Map lMap = new Map(width, height);
 
             // the second line contains the start position in the format (x,y)
             string[] start = lines[1].Trim(trimChars).Split(',');
