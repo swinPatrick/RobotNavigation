@@ -1,5 +1,6 @@
 ﻿ using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,18 @@ namespace RobotNavigation
                 if (fileName.Length > 4 && fileName.Substring(fileName.Length - 4, 4) == ".txt")
                 {
                     validFile = true;
+                    try
+                    {
+
+                        map environment = readMap.readMapFromFile(fileName);
+
+                        environment.printMap();
+                    }
+                    catch (IOException e)
+                    {
+                        // print error to console and exit app
+                        Console.WriteLine(e.ToString());
+                    }
                 }
                 else
                 {
@@ -28,10 +41,6 @@ namespace RobotNavigation
             }
 
 
-
-            map environment = readMap.readMapFromFile(fileName);
-
-            environment.printMap();
             Console.ReadKey();
         }
     }

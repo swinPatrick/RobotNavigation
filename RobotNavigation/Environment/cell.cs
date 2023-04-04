@@ -8,10 +8,10 @@ namespace RobotNavigation
 {
     internal enum cellType
     {
-        start,
-        end,
-        wall,
-        empty
+        START,
+        END,
+        WALL,
+        EMPTY
     }
 
     internal class cell

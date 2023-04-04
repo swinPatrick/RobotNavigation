@@ -27,7 +27,7 @@ namespace RobotNavigation
             {
                 for (int y = 0; y < height; y++)
                 {
-                    cells[x, y] = new cell(x, y, cellType.empty);
+                    cells[x, y] = new cell(x, y, cellType.EMPTY);
                 }
             }
         }
@@ -47,16 +47,16 @@ namespace RobotNavigation
                     Console.Write("[");
                     switch (cells[x, y].Type)
                     {
-                        case cellType.start:
+                        case cellType.START:
                             Console.Write("S");
                             break;
-                        case cellType.end:
+                        case cellType.END:
                             Console.Write("E");
                             break;
-                        case cellType.wall:
+                        case cellType.WALL:
                             Console.Write("W");
                             break;
-                        case cellType.empty:
+                        case cellType.EMPTY:
                             Console.Write(" ");
                             break;
                     }
@@ -65,5 +65,6 @@ namespace RobotNavigation
                 Console.WriteLine();
             }
         }
+
     }
 }
