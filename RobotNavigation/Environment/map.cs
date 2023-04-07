@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal class map
+    public class Map
     {
         private int width;
         private int height;
         private cell[,] cells;
+        private cell start;
 
         public int Width { get { return width; } }
 
         public int Height { get { return height; } }
         
         public cell[,] Cells { get { return cells; } }
+
+        public cell Start { get { return start; } }
         
-        public map(int width, int height)
+        public Map(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -27,7 +30,7 @@ namespace RobotNavigation
             {
                 for (int y = 0; y < height; y++)
                 {
-                    cells[x, y] = new cell(x, y, cellType.empty);
+                    cells[x, y] = new cell(x, y, cellType.EMPTY);
                 }
             }
         }
@@ -35,6 +38,8 @@ namespace RobotNavigation
         public void setCell(int x, int y, cellType aType)
         {
             cells[x, y].Type = aType;
+            if(aType == cellType.START)
+                start = cells[x, y];
         }
 
         // print the map format into the console
@@ -47,16 +52,16 @@ namespace RobotNavigation
                     Console.Write("[");
                     switch (cells[x, y].Type)
                     {
-                        case cellType.start:
+                        case cellType.START:
                             Console.Write("S");
                             break;
-                        case cellType.end:
+                        case cellType.END:
                             Console.Write("E");
                             break;
-                        case cellType.wall:
+                        case cellType.WALL:
                             Console.Write("W");
                             break;
-                        case cellType.empty:
+                        case cellType.EMPTY:
                             Console.Write(" ");
                             break;
                     }
@@ -65,5 +70,6 @@ namespace RobotNavigation
                 Console.WriteLine();
             }
         }
+
     }
 }
