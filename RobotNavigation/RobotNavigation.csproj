@@ -51,6 +51,8 @@
     <Compile Include="Robot\Instruction.cs" />
     <Compile Include="Robot\Robot.cs" />
     <Compile Include="Robot\RobotScenario.cs" />
+    <Compile Include="SearchAlgorithms\BreadthFirstSearch - Copy.cs" />
+    <Compile Include="SearchAlgorithms\BreadthFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\DepthFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\SearchMethod.cs" />
   </ItemGroup>
