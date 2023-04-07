@@ -50,6 +50,7 @@
     <Compile Include="Robot\Instruction.cs" />
     <Compile Include="Robot\Robot.cs" />
     <Compile Include="Robot\RobotScenario.cs" />
+    <Compile Include="SearchAlgorithms\LowestCostFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\GreedyBestFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\BreadthFirstSearch.cs" />
     <Compile Include="SearchAlgorithms\AStarSearch.cs" />
