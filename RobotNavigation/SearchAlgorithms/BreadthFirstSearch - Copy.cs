@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    public class BreadthFirstSearch : SearchMethod
+    public class AStarSearch : SearchMethod
     {
 
         // the count of how many have been discovered while searching, wand how many have actually been explored
@@ -14,10 +14,10 @@ namespace RobotNavigation
         private int _searched;
         private string _path;
 
-        public BreadthFirstSearch() 
+        public AStarSearch() 
         {
-            code = "BFS";
-            description = "Breadth First Search";
+            code = "A*";
+            description = "A* Search";
         }
 
         // Add list to frontier in the appropriate order (FIFO)
