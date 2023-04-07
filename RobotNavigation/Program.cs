@@ -58,6 +58,7 @@ namespace RobotNavigation
             s_searchMethods = new List<SearchMethod>();
             s_searchMethods.Add(new DepthFirstSearch());
             s_searchMethods.Add(new BreadthFirstSearch());
+            s_searchMethods.Add(new GreedyBestFirstSearch());
             s_searchMethods.Add(new AStarSearch());
         }
 
