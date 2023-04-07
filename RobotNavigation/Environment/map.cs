@@ -12,6 +12,7 @@ namespace RobotNavigation
         private int height;
         private cell[,] cells;
         private cell start;
+        private List<cell> ends;
 
         public int Width { get { return width; } }
 
@@ -20,6 +21,7 @@ namespace RobotNavigation
         public cell[,] Cells { get { return cells; } }
 
         public cell Start { get { return start; } }
+        public List<cell> Ends { get { return ends; } }
         
         public Map(int width, int height)
         {
@@ -33,6 +35,7 @@ namespace RobotNavigation
                     cells[x, y] = new cell(x, y, cellType.EMPTY);
                 }
             }
+            ends = new List<cell>();
         }
 
         public void setCell(int x, int y, cellType aType)
@@ -40,6 +43,8 @@ namespace RobotNavigation
             cells[x, y].Type = aType;
             if(aType == cellType.START)
                 start = cells[x, y];
+            else if(aType == cellType.END)
+                ends.Add(cells[x, y]);
         }
 
         // print the map format into the console

@@ -12,7 +12,6 @@ namespace RobotNavigation
         // the count of how many have been discovered while searching, wand how many have actually been explored
         private int _discovered;
         private int _searched;
-        private string _path;
 
         public BreadthFirstSearch() 
         {
