@@ -14,10 +14,10 @@ namespace RobotNavigation
         private int _searched;
         private string _path;
 
-        public DepthFirstSearch(Map aMap) : base(aMap)
+        public DepthFirstSearch() 
         {
-            _discovered = 0;
-            _searched = 0;
+            code = "DFS";
+            description = "Depth First Search";
         }
 
         // Add list to frontier in the appropriate order (LIFO)
@@ -31,7 +31,7 @@ namespace RobotNavigation
             }
         }
 
-        public override void FindPath()
+        public override List<Instruction> FindPath()
         {
             RobotScenario lState = null;
 
@@ -50,13 +50,15 @@ namespace RobotNavigation
                 if (lState.IsSolved())
                 {
                     _frontier.Clear();
-                    _frontier.AddLast(lState);
-                    break;
+                    return lState.Robot.Path;
                 }
 
                 // determine what moves can be done
                 addListToFrontier(lState.DetermineMoveSet());
             }
+
+            // no solution was found
+            return null;
         }
 
         public string Path()
