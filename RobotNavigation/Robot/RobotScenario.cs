@@ -7,25 +7,23 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal class RobotScenario
+    public class RobotScenario
     {
         private Map _map;
         private Robot _robot;
-        private List<Instruction> _path;
+
+        public Robot Robot { get { return _robot; } }
 
         public RobotScenario(Map aMap, Robot aRobot)
         {
             _map = aMap;
             _robot = aRobot;
-            _path = new List<Instruction>();
         }
 
-        public RobotScenario(RobotScenario aScenario, Instruction aInstruction)
+        public RobotScenario(RobotScenario aScenario)
         {
             _map = aScenario._map;
-            _robot = new Robot(aScenario._robot);
-            _path = new List<Instruction>(aScenario._path);
-            _path.Add(aInstruction);
+            _robot = aScenario._robot;
         }
 
         public bool IsSolved()
@@ -33,47 +31,33 @@ namespace RobotNavigation
             return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
         }
 
-        public LinkedList<RobotScenario> DetermineMoveSet()
+        public List<RobotScenario> DetermineMoveSet()
         {
-            LinkedList<RobotScenario> moveScenarios = new LinkedList<RobotScenario>();
+            List<RobotScenario> moveScenarios = new List<RobotScenario>();
 
-            // TODO: check where robot can move, add scenario for each to the list.
+            Robot lRobot;
 
-            // for each instruction in instructions
-            foreach (Instruction instruction in (Instruction[])Enum.GetValues(typeof(Instruction)))
+            // iterate through instructions in enum instructions
+            foreach (Instruction instruction in Enum.GetValues(typeof(Instruction)))
             {
-                try
-                {
-                    // create new scenario
-                    RobotScenario lScenario = new RobotScenario(this, instruction);
-                    // check if valid
-                    // try would fail if out of bounds
-                    if (_map.Cells[_robot.X, _robot.Y].Type == cellType.WALL)
-                        lScenario = null;
+                if ((instruction == Instruction.UP) && !(_robot.Y > 0 && _map.Cells[_robot.X, _robot.Y - 1].Type != cellType.WALL))
+                    continue;
+                else if ((instruction == Instruction.LEFT) && !(_robot.X > 0 && _map.Cells[_robot.X - 1, _robot.Y].Type != cellType.WALL))
+                    continue;
+                else if((instruction == Instruction.DOWN) && !(_robot.Y < _map.Height - 1 && _map.Cells[_robot.X, _robot.Y + 1].Type != cellType.WALL))
+                    continue;
+                else if((instruction == Instruction.RIGHT) && !(_robot.X < _map.Width - 1 && _map.Cells[_robot.X + 1, _robot.Y].Type != cellType.WALL))
+                    continue;
+                lRobot = new Robot(_robot.X, _robot.Y, _robot.Path);
+                lRobot.Move(instruction);
 
-                    // add to list or delete
-                    if (lScenario != null)
-                        moveScenarios.AddLast(lScenario);
-                }
-                catch { }
+                if (_map.Cells[lRobot.X, lRobot.Y].wasVisited)
+                    continue;
+
+                moveScenarios.Add(new RobotScenario(_map, new Robot(lRobot.X, lRobot.Y, lRobot.Path)));
             }
-
 
             return moveScenarios;
-        }
-
-        public string PrintPath()
-        {
-            string s = "";
-            // for each instruction in list, add instruction to string. "instruction1, unstruction2, etc."
-            foreach(Instruction instruction in _path)
-            {
-                // add instruction to end of s
-                s += instruction.ToString();
-            }
-            s.Trim(',');
-
-            return s;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal enum Instruction
+    public enum Instruction
     {
         UP,
         LEFT,

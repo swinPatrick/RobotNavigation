@@ -1,4 +1,4 @@
-﻿using RobotNavigation.SearchAlgorithms;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ namespace RobotNavigation
     internal class Program
     {
         static void Main(string[] args)
-        {
+        { 
             // args[0] is the name of the map file
             // args[1] is the method used to find the path
 
@@ -35,8 +35,8 @@ namespace RobotNavigation
 
                 // use search to find path
                 DepthFirstSearch dfs = new DepthFirstSearch(environment);
-                dfs.findPath();
-                dfs.Frontier.First.Value.PrintPath();  
+                dfs.FindPath();
+                Console.WriteLine(dfs.Path());
             }
             catch (IOException e)
             {

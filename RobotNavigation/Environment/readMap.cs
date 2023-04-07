@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,9 +14,17 @@ namespace RobotNavigation
         {
             // char array of characters to remove from begining and end of lines
             char[] trimChars = { ' ', '(', ')', '[', ']' };
+            string[] lines = null;
 
-
-            string[] lines = System.IO.File.ReadAllLines(filename);
+            try {
+                lines = System.IO.File.ReadAllLines(filename);
+            }
+                catch (IOException e)
+            {
+                Console.WriteLine(e.ToString());
+                // stop the program
+                Environment.Exit(0);
+            }
             // parse the map file line by line
 
             // the first line contains the map size in the format [heigh,width]

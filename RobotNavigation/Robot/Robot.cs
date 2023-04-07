@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal class Robot
+    public class Robot
     {
         private int _x;
         private int _y;
+        private List<Instruction> _path;
 
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
+        public List<Instruction> Path { get { return _path; } }
 
-        public Robot(int aX, int aY)
+        public Robot(int aX, int aY, List<Instruction> aInstruction)
         {
             _x = aX;
             _y = aY;
+            _path = new List<Instruction>(aInstruction);
         }
-
-        public Robot(Robot aRobot)
-        {
-            _x = aRobot.X;
-            _y = aRobot.Y;
-        }
+        public Robot(int aX, int aY) : this(aX, aY, new List<Instruction>())
+        { }
 
         public void Move(Instruction instruction)
         {
@@ -43,6 +42,7 @@ namespace RobotNavigation
                     _x++;
                     break;
             }
+            _path.Add(instruction);
         }
 
     }

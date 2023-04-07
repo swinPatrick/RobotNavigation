@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal abstract class SearchMethod
+    public abstract class SearchMethod
     {
         protected RobotScenario _scenario;
         protected Map _map;
@@ -22,8 +22,9 @@ namespace RobotNavigation
 
             _frontier = new LinkedList<RobotScenario>();
             _frontier.AddFirst(new RobotScenario(_map, new Robot(Start.X, Start.Y)));
+            _map.Cells[Start.X, Start.Y].wasVisited = true;
         }
 
-        public abstract void findPath();
+        public abstract void FindPath();
     }
 }

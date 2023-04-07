@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal class Map
+    public class Map
     {
         private int width;
         private int height;

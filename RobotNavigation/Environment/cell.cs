@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    internal enum cellType
+    public enum cellType
     {
         START,
         END,
@@ -14,7 +14,7 @@ namespace RobotNavigation
         EMPTY
     }
 
-    internal class cell
+    public class cell
     {
         private int _x;
         private int _y;
@@ -25,7 +25,7 @@ namespace RobotNavigation
 
         public int Y { get { return _y; } }
 
-        public bool Visited { get { return _visited; } set { _visited = value; } }
+        public bool wasVisited { get { return _visited; } set { _visited = value; } }
 
         public cellType Type
         {
