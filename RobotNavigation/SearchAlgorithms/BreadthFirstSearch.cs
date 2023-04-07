@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    public class DepthFirstSearch : SearchMethod
+    public class BreadthFirstSearch : SearchMethod
     {
 
         // the count of how many have been discovered while searching, wand how many have actually been explored
@@ -14,19 +14,18 @@ namespace RobotNavigation
         private int _searched;
         private string _path;
 
-        public DepthFirstSearch() 
+        public BreadthFirstSearch() 
         {
-            code = "DFS";
-            description = "Depth First Search";
+            code = "BFS";
+            description = "Breadth First Search";
         }
 
-        // Add list to frontier in the appropriate order (LIFO)
+        // Add list to frontier in the appropriate order (FIFO)
         private void addListToFrontier(List<RobotScenario> _list)
         {
-
-            for( int i = _list.Count - 1; i >= 0; i--)
+            foreach(RobotScenario lState in _list)
             {
-                _frontier.AddFirst(_list.ElementAt(i));
+                _frontier.AddLast(lState);
                 _discovered++;
             }
         }
