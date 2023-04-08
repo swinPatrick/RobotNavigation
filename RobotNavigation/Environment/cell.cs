@@ -14,10 +14,10 @@ namespace RobotNavigation
         EMPTY
     }
 
-    public class cell
+    public class Cell
     {
-        private int _x;
-        private int _y;
+        private readonly int _x;
+        private readonly int _y;
         private cellType _type;
         private bool _visited;
 
@@ -33,7 +33,7 @@ namespace RobotNavigation
             set { _type = value; }
         }
 
-        public cell(int aX, int aY, cellType aType)
+        public Cell(int aX, int aY, cellType aType)
         {
             _x = aX;
             _y = aY;

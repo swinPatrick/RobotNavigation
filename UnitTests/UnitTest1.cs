@@ -24,7 +24,7 @@ namespace UnitTests
             lMap.setCell(0, 0, cellType.START);
             lMap.setCell(0, 1, cellType.END);
             RobotScenario lScenario = new RobotScenario(lMap, lRobot);
-            DepthFirstSearch DFS = new DepthFirstSearch(lMap);
+            DepthFirstSearch DFS = new DepthFirstSearch();
             //DFS.findPath();
             Assert.AreEqual(expected: true, lScenario.IsSolved());
         }

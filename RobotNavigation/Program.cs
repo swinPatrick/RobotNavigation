@@ -43,7 +43,7 @@ namespace RobotNavigation
             // find path
             List<Instruction> solution = searchMethod.FindPath();
 
-            if(solution.Count > 0)
+            if(solution != null )
             {
                 PrintList(solution);
             }
@@ -58,6 +58,10 @@ namespace RobotNavigation
             s_searchMethods = new List<SearchMethod>();
             s_searchMethods.Add(new DepthFirstSearch());
             s_searchMethods.Add(new BreadthFirstSearch());
+            s_searchMethods.Add(new GreedyBestFirstSearch());
+            s_searchMethods.Add(new AStarSearch());
+            s_searchMethods.Add(new LowestCostFirstSearch());
+            s_searchMethods.Add(new BidirectionalSearch());
         }
 
         private static SearchMethod GetSearchMethod(string code)
