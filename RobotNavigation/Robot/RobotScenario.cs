@@ -31,7 +31,7 @@ namespace RobotNavigation
             return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
         }
 
-        public List<RobotScenario> DetermineMoveSet()
+        public List<RobotScenario> DetermineMoveSet(bool excludeVisited = true)
         {
             List<RobotScenario> moveScenarios = new List<RobotScenario>();
 
@@ -51,7 +51,7 @@ namespace RobotNavigation
                 lRobot = new Robot(_robot.X, _robot.Y, _robot.Path);
                 lRobot.Move(instruction);
 
-                if (_map.Cells[lRobot.X, lRobot.Y].wasVisited)
+                if (excludeVisited && _map.Cells[lRobot.X, lRobot.Y].wasVisited)
                     continue;
 
                 moveScenarios.Add(new RobotScenario(_map, new Robot(lRobot.X, lRobot.Y, lRobot.Path)));
