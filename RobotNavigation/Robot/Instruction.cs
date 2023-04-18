@@ -18,7 +18,7 @@ namespace RobotNavigation
         JUMP_RIGHT
     }
 
-    public class Link
+    public class Path
     {
         private readonly Instruction _instruction;
         private readonly int _cost;
@@ -26,7 +26,7 @@ namespace RobotNavigation
         public Instruction Instruction { get { return _instruction; } }
         public int Cost { get { return _cost; } }
 
-        public Link(Instruction aInstruction, int aCost = 1)
+        public Path(Instruction aInstruction, int aCost = 1)
         {
             _instruction = aInstruction;
             _cost = aCost;

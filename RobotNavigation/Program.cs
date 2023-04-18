@@ -56,7 +56,7 @@ namespace RobotNavigation
             searchMethod.Initialise(environment);
             
             // find path
-            List<Link> solution = searchMethod.FindPath();
+            List<Path> solution = searchMethod.FindPath();
 
             if(solution != null )
             {
@@ -167,11 +167,11 @@ namespace RobotNavigation
             return null;
         }
 
-        private static void PrintList(List<Link> l)
+        private static void PrintList(List<Path> l)
         {
             string s = string.Empty;
             int temp;
-            foreach (Link i in l)
+            foreach (Path i in l)
             {
                 s += i.Instruction.ToString().ToLower();
                 if(i.Cost > 1)

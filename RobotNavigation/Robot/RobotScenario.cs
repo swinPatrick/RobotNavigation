@@ -116,7 +116,7 @@ namespace RobotNavigation
         public int CalculatePathCost()
         {
             int cost = 0;
-            foreach(Link link in _robot.Path)
+            foreach(Path link in _robot.Path)
             {
                 cost += link.Cost;
             }

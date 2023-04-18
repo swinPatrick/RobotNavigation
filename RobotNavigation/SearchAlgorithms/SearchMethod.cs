@@ -40,7 +40,7 @@ namespace RobotNavigation
             _map.Cells[lStart.X, lStart.Y].wasVisited = true;
         }
 
-        public virtual List<Link> FindPath()
+        public virtual List<Path> FindPath()
         {
             RobotScenario lState;
 
