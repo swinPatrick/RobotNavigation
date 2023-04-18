@@ -22,12 +22,14 @@ namespace RobotNavigation
             //  [1] is the method used to find the path
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage: RobotNavigation.exe <file name> <search method>");
+                Console.WriteLine("Usage: RobotNavigation.exe <file name> <search method> <optional>");
                 Console.WriteLine("Search methods:");
                 foreach (SearchMethod method in s_searchMethods)
                 {
                     Console.WriteLine(String.Format("\t{0} ({1})", method.Code, method.Description));
                 }
+                Console.WriteLine("<optional> can be left empty, or may be set to:");
+                Console.WriteLine("\tJ - Use Jumping (False by default)");
                 Environment.Exit(0);
             }
 
@@ -37,11 +39,24 @@ namespace RobotNavigation
             // get search method
             SearchMethod searchMethod = GetSearchMethod(args[1]);
 
+            // check if theres a third argument
+            if(args.Length > 2)
+            {
+                switch(args[2])
+                {
+                    case "J":
+                        searchMethod.UseJumping = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             // Initialise search method
             searchMethod.Initialise(environment);
             
             // find path
-            List<Instruction> solution = searchMethod.FindPath();
+            List<Link> solution = searchMethod.FindPath();
 
             if(solution != null )
             {
@@ -152,12 +167,18 @@ namespace RobotNavigation
             return null;
         }
 
-        private static void PrintList(List<Instruction> l)
+        private static void PrintList(List<Link> l)
         {
             string s = string.Empty;
-            foreach (Instruction i in l)
+            int temp;
+            foreach (Link i in l)
             {
-                s += i.ToString().ToLower();
+                s += i.Instruction.ToString().ToLower();
+                if(i.Cost > 1)
+                {
+                    temp = (int)Math.Sqrt(i.Cost);
+                    s += "(" + temp.ToString() + ")";
+                }
                 s += ", ";
             }
             s = s.TrimEnd(' ').TrimEnd(',');

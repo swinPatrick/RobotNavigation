@@ -62,7 +62,7 @@ namespace RobotNavigation
             }
 
             // return cost of path travelled so far + distance to closest end cell
-            return aScenario.Robot.Path.Count + lLowestCost;
+            return aScenario.CalculatePathCost() + lLowestCost;
         }
     }
 }

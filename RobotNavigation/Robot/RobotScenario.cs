@@ -28,7 +28,7 @@ namespace RobotNavigation
             return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
         }
 
-        public List<RobotScenario> DetermineMoveSet(bool excludeVisited = true, bool useJump = false)
+        public List<RobotScenario> DetermineMoveSet(bool excludeVisited = true, bool withJumping = false)
         {
             List<RobotScenario> moveScenarios = new List<RobotScenario>();
 
@@ -53,7 +53,7 @@ namespace RobotNavigation
                 moveScenarios.Add(new RobotScenario(_map, new Robot(lRobot.X, lRobot.Y, lRobot.Path)));
             }
 
-            if (useJump == true)
+            if (withJumping == true)
             {
                 // iterate remaining instructions in enum instructions
                 for (int i = 4; i < Enum.GetValues(typeof(Instruction)).Length; i++)
@@ -111,6 +111,16 @@ namespace RobotNavigation
             Robot lRobot = new Robot(_robot.X, _robot.Y, _robot.Path);
             lRobot.Move(aInstruction, aDistance);
             return new RobotScenario(_map, lRobot);
+        }
+
+        public int CalculatePathCost()
+        {
+            int cost = 0;
+            foreach(Link link in _robot.Path)
+            {
+                cost += link.Cost;
+            }
+            return cost;
         }
     }
 }

@@ -57,7 +57,9 @@ namespace RobotNavigation
                     break;
 
             }
-            _path.Add(new Link(instruction, 2^distance));
+            int cost = (int)Math.Pow(2, distance-1);
+            
+            _path.Add(new Link(instruction, cost));
         }
 
     }

@@ -17,42 +17,44 @@ namespace RobotNavigation
         // Add list to frontier in the appropriate order
         internal override void AddListToFrontier(List<RobotScenario> aList)
         {
-            int totalCostI;
-            int totalCostJ;
+            int newScenarioCost;
+            int listScenarioCost;
 
             _discovered += aList.Count;
 
-            aList.AddRange(_frontier);
-            
-            // sort the list by total cost
-            for(int i = 0; i < aList.Count; i++)
+            List<RobotScenario> lList = new List<RobotScenario>(_frontier);
+
+            foreach (RobotScenario aScenario in aList)
             {
-                for (int j = i + 1; j < aList.Count; j++)
+                // insert the scenario into the frontier in the correct position
+                // based on the cost of the path travelled so far + the distance to the closest end cell
+                newScenarioCost = aScenario.CalculatePathCost();
+                bool inserted = false;
+                for (int i = 0; i < lList.Count; i++)
                 {
-                    // calculate cost of element at i
-                    totalCostI = CalculateCost(aList.ElementAt(i));
-                    // calculate cost of element at j
-                    totalCostJ = CalculateCost(aList.ElementAt(j));
-                    if (totalCostJ < totalCostI)
+                    RobotScenario lElement = lList.ElementAt(i);
+                    listScenarioCost = CalculateCost(lElement);
+                    if (listScenarioCost > newScenarioCost)
                     {
-                        RobotScenario temp = aList.ElementAt(i);
-                        aList[i] = aList.ElementAt(j);
-                        aList[j] = temp;
+                        lList.Insert(i, aScenario);
+                        inserted = true;
+                        break;
                     }
+                }
+                if (!inserted)
+                {
+                    lList.Add(aScenario);
                 }
             }
 
-            _frontier.Clear();
-            foreach(RobotScenario temp in aList)
-            { 
-                _frontier.AddLast(temp);
-            }
+            _frontier = null;
+            _frontier = new LinkedList<RobotScenario>(lList);
         }
 
         private int CalculateCost(RobotScenario aScenario)
         {
-            // return cost of path travelled so far + distance to closest end cell
-            return aScenario.Robot.Path.Count;
+            // return cost of path travelled so far
+            return aScenario.CalculatePathCost();
         }
     }
 }
