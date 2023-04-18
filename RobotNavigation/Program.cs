@@ -61,7 +61,7 @@ namespace RobotNavigation
             s_searchMethods.Add(new GreedyBestFirstSearch());
             s_searchMethods.Add(new AStarSearch());
             s_searchMethods.Add(new LowestCostFirstSearch());
-            s_searchMethods.Add(new BidirectionalSearch());
+            //s_searchMethods.Add(new BidirectionalSearch());
         }
 
         private static SearchMethod GetSearchMethod(string code)
