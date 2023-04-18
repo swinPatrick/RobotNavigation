@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RobotNavigation
 {
@@ -23,12 +24,18 @@ namespace RobotNavigation
             _robot = aScenario._robot;
         }
 
-        public bool IsSolved()
+        public bool IsSolved(bool aCompletionist = false)
         {
-            return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
+            // return true if an END cell is marked as VISITED
+            if(!aCompletionist)
+                return _map.Ends.Any(end => end.wasVisited);
+            else
+                return (_map.Ends.All(end => end.wasVisited));
+
+            //return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
         }
 
-        public List<RobotScenario> DetermineMoveSet(bool excludeVisited = true, bool withJumping = false)
+        public List<RobotScenario> DetermineMoveSet(bool withJumping = false)
         {
             List<RobotScenario> moveScenarios = new List<RobotScenario>();
 
@@ -48,12 +55,12 @@ namespace RobotNavigation
                     continue;
                 lRobot = new Robot(_robot.X, _robot.Y, _robot.Path);
                 lRobot.Move(instruction);
-                if (excludeVisited && _map.Cells[lRobot.X, lRobot.Y].wasVisited)
+                if (_map.Cells[lRobot.X, lRobot.Y].wasVisited)
                     continue;
                 moveScenarios.Add(new RobotScenario(_map, new Robot(lRobot.X, lRobot.Y, lRobot.Path)));
             }
 
-            if (withJumping == true)
+            if (withJumping)
             {
                 // iterate remaining instructions in enum instructions
                 for (int i = 4; i < Enum.GetValues(typeof(Instruction)).Length; i++)

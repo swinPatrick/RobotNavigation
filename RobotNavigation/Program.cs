@@ -29,6 +29,7 @@ namespace RobotNavigation
                     Console.WriteLine(String.Format("\t{0} ({1})", method.Code, method.Description));
                 }
                 Console.WriteLine("<optional> can be left empty, or may be set to:");
+                Console.WriteLine("\tC - Use Completionist (False by default)");
                 Console.WriteLine("\tJ - Use Jumping (False by default)");
                 Environment.Exit(0);
             }
@@ -42,14 +43,10 @@ namespace RobotNavigation
             // check if theres a third argument
             if(args.Length > 2)
             {
-                switch(args[2])
-                {
-                    case "J":
-                        searchMethod.UseJumping = true;
-                        break;
-                    default:
-                        break;
-                }
+                if (args[2].Contains("C"))
+                    searchMethod.Completionist = true;
+                if (args[2].Contains("J"))
+                    searchMethod.UseJumping = true;
             }
 
             // Initialise search method
@@ -76,7 +73,6 @@ namespace RobotNavigation
             s_searchMethods.Add(new GreedyBestFirstSearch());
             s_searchMethods.Add(new AStarSearch());
             s_searchMethods.Add(new LowestCostFirstSearch());
-            //s_searchMethods.Add(new BidirectionalSearch());
         }
 
         private static SearchMethod GetSearchMethod(string code)

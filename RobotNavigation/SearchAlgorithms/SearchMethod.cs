@@ -15,11 +15,17 @@ namespace RobotNavigation
         public string Description { get { return _description; } }
 
         internal bool _withJumping = false;
-        // public bool UseJumping has both get set
         public bool UseJumping
         {
             get { return _withJumping; }
             set { _withJumping = value; }
+        }
+
+        internal bool _completionist = false;
+        public bool Completionist
+        {
+            get { return _completionist; }
+            set { _completionist = value; }
         }
 
         protected RobotScenario _scenario;
@@ -56,7 +62,7 @@ namespace RobotNavigation
                 _searched++;
 
                 // check to see if robot is at an end
-                if (lState.IsSolved())
+                if (lState.IsSolved(_completionist))
                 {
                     _frontier.Clear();
                     return lState.Robot.Path;
