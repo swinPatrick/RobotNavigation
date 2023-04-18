@@ -29,7 +29,7 @@ namespace RobotNavigation
 
             _frontier = new LinkedList<RobotScenario>();
             _frontier.AddFirst(new RobotScenario(_map, new Robot(lStart.X, lStart.Y)));
-            _map.Cells[lStart.X, lStart.Y].wasVisited = true;
+            _map.Cells[lStart.X, lStart.Y].WasVisited = true;
         }
 
         public virtual List<Instruction> FindPath()
@@ -42,7 +42,7 @@ namespace RobotNavigation
                 lState = _frontier.First();
                 _frontier.RemoveFirst();
 
-                _map.Cells[lState.Robot.X, lState.Robot.Y].wasVisited = true;
+                _map.Cells[lState.Robot.X, lState.Robot.Y].WasVisited = true;
 
                 // increment searched cells
                 _searched++;

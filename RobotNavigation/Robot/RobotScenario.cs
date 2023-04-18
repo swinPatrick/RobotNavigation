@@ -10,7 +10,6 @@ namespace RobotNavigation
     public class RobotScenario
     {
         private Map _map;
-        private Robot _robot;
 
         public Robot Robot { get { return _robot; } }
 
@@ -28,7 +27,8 @@ namespace RobotNavigation
 
         public bool IsSolved()
         {
-            return _map.Cells[_robot.X, _robot.Y].Type == cellType.END;
+            // if robot is at an end cell, return true
+            Cell lCell = 
         }
 
         public List<RobotScenario> DetermineMoveSet(bool excludeVisited = true)
@@ -51,7 +51,7 @@ namespace RobotNavigation
                 lRobot = new Robot(_robot.X, _robot.Y, _robot.Path);
                 lRobot.Move(instruction);
 
-                if (excludeVisited && _map.Cells[lRobot.X, lRobot.Y].wasVisited)
+                if (excludeVisited && _map.Cells[lRobot.X, lRobot.Y].WasVisited)
                     continue;
 
                 moveScenarios.Add(new RobotScenario(_map, new Robot(lRobot.X, lRobot.Y, lRobot.Path)));

@@ -6,39 +6,47 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
-    public enum cellType
+    public enum CellContents
     {
-        START,
-        END,
+        EMPTY,
         WALL,
-        EMPTY
+        ROBOT
     }
 
     public class Cell
     {
         private readonly int _x;
         private readonly int _y;
-        private cellType _type;
+        private CellContents _contents;
         private bool _visited;
+        private Cell _parent = null;
 
         public int X { get { return _x; } }
 
         public int Y { get { return _y; } }
 
-        public bool wasVisited { get { return _visited; } set { _visited = value; } }
+        public Cell Parent { get { return _parent; } set { _parent = value; } }
 
-        public cellType Type
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
+        public bool WasVisited { get { return _visited; } set { _visited = value; } }
 
-        public Cell(int aX, int aY, cellType aType)
+        public CellContents Contents { get { return _contents; } set { _contents = value; } }
+
+        public Cell(int aX, int aY, CellContents aContents = CellContents.EMPTY, Cell aParent = null)
         {
             _x = aX;
             _y = aY;
-            _type = aType;
+            _contents = aContents;
+            _parent = aParent;
             _visited = false;
+        }
+
+        public Cell(Cell aCell)
+        {
+            _x = aCell.X;
+            _y = aCell.Y;
+            _contents = aCell.Contents;
+            _visited = aCell.WasVisited;
+            _parent = aCell.Parent;
         }
     }
 }
