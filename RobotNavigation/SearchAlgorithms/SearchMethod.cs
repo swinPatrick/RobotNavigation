@@ -14,6 +14,14 @@ namespace RobotNavigation
         public string Code { get { return _code; } }
         public string Description { get { return _description; } }
 
+        internal bool _withJumping = false;
+        // public bool UseJumping has both get set
+        public bool UseJumping
+        {
+            get { return _withJumping; }
+            set { _withJumping = value; }
+        }
+
         protected RobotScenario _scenario;
         protected Map _map;
         protected LinkedList<RobotScenario> _frontier;
@@ -32,7 +40,7 @@ namespace RobotNavigation
             _map.Cells[lStart.X, lStart.Y].wasVisited = true;
         }
 
-        public virtual List<Instruction> FindPath()
+        public virtual List<Link> FindPath()
         {
             RobotScenario lState;
 
@@ -55,7 +63,7 @@ namespace RobotNavigation
                 }
 
                 // determine what moves can be done
-                AddListToFrontier(lState.DetermineMoveSet());
+                AddListToFrontier(lState.DetermineMoveSet(withJumping: _withJumping));
             }
 
             // no solution was found
