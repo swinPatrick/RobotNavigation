@@ -1,60 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
     public class AStarSearch : SearchMethod
     {
-        public AStarSearch() 
+        public AStarSearch()
         {
-            _code = "A*";
-            _description = "A* Search";
+            Code = "A*";
+            Description = "A* Search";
         }
 
         // Add list to frontier in the appropriate order
-        internal override void AddListToFrontier(List<RobotScenario> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
-            int totalCostI;
-            int totalCostJ;
+            int newScenarioCost;
+            int listScenarioCost;
 
             _discovered += aList.Count;
 
-            aList.AddRange(_frontier);
-            
-            // sort the list by total cost
-            for(int i = 0; i < aList.Count; i++)
+            List<State> lList = new List<State>(Frontier);
+
+            foreach (State aScenario in aList)
             {
-                for (int j = i + 1; j < aList.Count; j++)
+                // insert the scenario into the frontier in the correct position
+                // based on the cost of the path travelled so far + the distance to the closest end cell
+                newScenarioCost = CalculateCost(aScenario);
+                bool inserted = false;
+                for (int i = 0; i < lList.Count; i++)
                 {
-                    // calculate cost of element at i
-                    totalCostI = CalculateCost(aList.ElementAt(i));
-                    // calculate cost of element at j
-                    totalCostJ = CalculateCost(aList.ElementAt(j));
-                    if (totalCostJ < totalCostI)
+                    State lElement = lList.ElementAt(i);
+                    listScenarioCost = CalculateCost(lElement);
+                    if (listScenarioCost > newScenarioCost)
                     {
-                        RobotScenario temp = aList.ElementAt(i);
-                        aList[i] = aList.ElementAt(j);
-                        aList[j] = temp;
+                        lList.Insert(i, aScenario);
+                        inserted = true;
+                        break;
                     }
+                }
+                if (!inserted)
+                {
+                    lList.Add(aScenario);
                 }
             }
 
-            _frontier.Clear();
-            foreach(RobotScenario temp in aList)
-            { 
-                _frontier.AddLast(temp);
-            }
+            Frontier = null;
+            Frontier = new List<State>(lList);
         }
 
-        private int CalculateCost(RobotScenario aScenario)
+        private int CalculateCost(State aState)
         {
-            int lLowestCost = _map.Width + _map.Height;
-            foreach(Cell endCell in _map.Ends)
+            // Calculate the cost of a state based on the cost of the path travelled so far + the distance to the closest end cell
+            // furthest distance possible is width + height of map
+            int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
+            // check all end cells and find the one with the lowest distance to the current node
+            foreach (Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aScenario.Robot.X - endCell.X) + Math.Abs(aScenario.Robot.Y - endCell.Y);
+                int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
                 if (lCost < lLowestCost)
                 {
                     lLowestCost = lCost;
@@ -62,7 +65,7 @@ namespace RobotNavigation
             }
 
             // return cost of path travelled so far + distance to closest end cell
-            return aScenario.CalculatePathCost() + lLowestCost;
+            return aState.CalculatePathCost() + lLowestCost;
         }
     }
 }

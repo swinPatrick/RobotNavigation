@@ -1,73 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="RobotNavigation.cell" Collapsed="true">
-    <Position X="9.5" Y="1.5" Width="1.5" />
+  <Class Name="RobotNavigation.Cell">
+    <Position X="5.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIQAQEAAQAAAAAAAAAAAAAAAAAAQAAAAAAYAA=</HashCode>
-      <FileName>Environment\cell.cs</FileName>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAYAA=</HashCode>
+      <FileName>Environment\Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.Map" Collapsed="true">
-    <Position X="11.25" Y="1.5" Width="1.5" />
+  <Class Name="RobotNavigation.Connection">
+    <Position X="7.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAABCAAAAQgQAIAAEACAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Environment\map.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAACAAQBAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Environment\Connection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.readMap" Collapsed="true">
-    <Position X="9.5" Y="2.5" Width="1.5" />
+  <Class Name="RobotNavigation.Coordinate">
+    <Position X="3.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Environment\readMap.cs</FileName>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Environment\Coordinate.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.Program" Collapsed="true">
-    <Position X="13" Y="1.5" Width="1.5" />
+  <Class Name="RobotNavigation.Map">
+    <Position X="5.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
+      <HashCode>AAAAAIAABCAAAEAAAAAAAEAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Environment\Map.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.Robot" Collapsed="true">
-    <Position X="11.25" Y="2.5" Width="1.5" />
+  <Class Name="RobotNavigation.Node">
+    <Position X="9.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIAIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
-      <FileName>Robot\Robot.cs</FileName>
+      <HashCode>AAAAAAAAIAAAAAEAAABAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Environment\Node.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.RobotScenario" Collapsed="true">
-    <Position X="13" Y="2.5" Width="1.5" />
+  <Class Name="RobotNavigation.State">
+    <Position X="3.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAAAAAABAAAgAAAAgAAAAEAAABAAAAA=</HashCode>
-      <FileName>Robot\RobotScenario.cs</FileName>
+      <HashCode>ABAEAAAAAAAAAAQAAAAAAAgABAAAgAAAAAAAABAAAAA=</HashCode>
+      <FileName>Environment\State.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RobotNavigation.SearchMethod" Collapsed="true">
-    <Position X="7" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAACAAAAAQAgAAAAAAQAEAAAAAAAAA=</HashCode>
-      <FileName>SearchAlgorithms\SearchMethod.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="RobotNavigation.SearchAlgorithms.DepthFirstSearch" Collapsed="true">
-    <Position X="7" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEABAAAAAAAAAAAgAAAAAAAAACAAAAAAAA=</HashCode>
-      <FileName>SearchAlgorithms\DepthFirstSearch.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Enum Name="RobotNavigation.cellType" Collapsed="true">
-    <Position X="9.5" Y="3.75" Width="1.5" />
+  <Enum Name="RobotNavigation.CellType">
+    <Position X="1.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAABCgAAAAAAAAAAAAAgAAAA=</HashCode>
-      <FileName>Environment\cell.cs</FileName>
+      <FileName>Environment\Cell.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="RobotNavigation.Instruction" Collapsed="true">
-    <Position X="11.25" Y="3.75" Width="1.5" />
+  <Enum Name="RobotNavigation.Instruction">
+    <Position X="1.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAICAAAgAAAAAAAAAAA=</HashCode>
-      <FileName>Robot\Instruction.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAgAAAAFAAgAAAAICAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Environment\Instruction.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9.75" />

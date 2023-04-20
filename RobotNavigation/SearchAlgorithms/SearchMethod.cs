@@ -9,68 +9,72 @@ namespace RobotNavigation
 {
     public abstract class SearchMethod
     {
-        internal string _code;
-        internal string _description;
-        public string Code { get { return _code; } }
-        public string Description { get { return _description; } }
+        // Used to describe the search method
+        public string Code { get; internal set; }
+        public string Description { get; internal set; }
 
-        internal bool _withJumping = false;
-        // public bool UseJumping has both get set
-        public bool UseJumping
-        {
-            get { return _withJumping; }
-            set { _withJumping = value; }
-        }
-
-        protected RobotScenario _scenario;
-        protected Map _map;
-        protected LinkedList<RobotScenario> _frontier;
-
-        
+        // used to see search metrics
         internal int _discovered;
         internal int _searched;
 
+        // Optional parameters
+        public bool UseJumping { get; set; }
+        public bool Completionist { get; set; }
+
+        public List<State> Frontier { get; internal set; }
+
         public void Initialise(Map aMap)
         {
-            _map = aMap;
-            Cell lStart = _map.Start;
+            // create initial state, where first node is the start node
+            State initialState = new State(aMap);
 
-            _frontier = new LinkedList<RobotScenario>();
-            _frontier.AddFirst(new RobotScenario(_map, new Robot(lStart.X, lStart.Y)));
-            _map.Cells[lStart.X, lStart.Y].wasVisited = true;
+            // add initial state to frontier
+            Frontier = new List<State>();
+            Frontier.Add(initialState);
         }
 
-        public virtual List<Link> FindPath()
+        public virtual List<Node> FindPath()
         {
-            RobotScenario lState;
+            State lState;
 
             // while the frontier is not empty
-            while (_frontier.Count > 0)
+            while (Frontier.Count > 0)
             {
-                lState = _frontier.First();
-                _frontier.RemoveFirst();
+                lState = Frontier.First();
 
-                _map.Cells[lState.Robot.X, lState.Robot.Y].wasVisited = true;
+                // remove first node from frontier
+                Frontier.Remove(lState);
+
 
                 // increment searched cells
                 _searched++;
 
                 // check to see if robot is at an end
-                if (lState.IsSolved())
+                if (lState.IsSolved(Completionist))
                 {
-                    _frontier.Clear();
-                    return lState.Robot.Path;
+                    Frontier.Clear();
+                    //create a list of nodes. the final node will be robot, and the first node will be the node with the parent of null
+                    List<Node> Path = new List<Node>();
+                    Node currentNode = lState.CurrentNode;
+                    while (currentNode.Connection != null)
+                    {
+                        Path.Insert(0, currentNode);
+                        currentNode = currentNode.Connection.Parent;
+                    }
+                    // The final node does not have a parent.
+                    Path.Insert(0, currentNode);
+                    return Path;
                 }
 
                 // determine what moves can be done
-                AddListToFrontier(lState.DetermineMoveSet(withJumping: _withJumping));
+                AddListToFrontier(lState.DetermineMoveSet(useJumping: UseJumping));
             }
 
             // no solution was found
             return null;
         }
 
-        internal abstract void AddListToFrontier(List<RobotScenario> aList);
+        internal abstract void AddListToFrontier(List<State> aList);
 
     }
 }

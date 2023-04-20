@@ -10,18 +10,15 @@ namespace RobotNavigation
     {
         public BreadthFirstSearch() 
         {
-            _code = "BFS";
-            _description = "Breadth First Search";
+            Code = "BFS";
+            Description = "Breadth First Search";
         }
 
         // Add list to frontier in the appropriate order (FIFO)
-        internal override void AddListToFrontier(List<RobotScenario> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
-            foreach(RobotScenario lState in aList)
-            {
-                _frontier.AddLast(lState);
-                _discovered++;
-            }
+            Frontier.AddRange(aList);
+            _discovered += aList.Count;
         }
     }
 }

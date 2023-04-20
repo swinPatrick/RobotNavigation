@@ -13,7 +13,7 @@ namespace UnitTests
         [TestMethod()]
         public void BasicIsSolved()
         {
-            lMap.setCell(0, 0, cellType.END);
+            lMap.setCell(0, 0, CellType.END);
             RobotScenario lScenario = new RobotScenario(lMap, lRobot);
             Assert.AreEqual(expected: true, actual: lScenario.IsSolved());
         }
@@ -21,8 +21,8 @@ namespace UnitTests
         [TestMethod()]
         public void MovedIsSolved()
         {
-            lMap.setCell(0, 0, cellType.START);
-            lMap.setCell(0, 1, cellType.END);
+            lMap.setCell(0, 0, CellType.START);
+            lMap.setCell(0, 1, CellType.END);
             RobotScenario lScenario = new RobotScenario(lMap, lRobot);
             DepthFirstSearch DFS = new DepthFirstSearch();
             //DFS.findPath();

@@ -10,17 +10,17 @@ namespace RobotNavigation
     {
         public DepthFirstSearch() 
         {
-            _code = "DFS";
-            _description = "Depth First Search";
+            Code = "DFS";
+            Description = "Depth First Search";
         }
 
         // Add list to frontier in the appropriate order (LIFO)
-        internal override void AddListToFrontier(List<RobotScenario> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
 
             for( int i = aList.Count - 1; i >= 0; i--)
             {
-                _frontier.AddFirst(aList.ElementAt(i));
+                Frontier.Insert(0,aList.ElementAt(i));
                 _discovered++;
             }
         }

@@ -20,6 +20,8 @@ namespace RobotNavigation
             // args contains:
             //  [0] is the name of the map file
             //  [1] is the method used to find the path
+            //
+            //  [2] is optional extras
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: RobotNavigation.exe <file name> <search method> <optional>");
@@ -29,7 +31,9 @@ namespace RobotNavigation
                     Console.WriteLine(String.Format("\t{0} ({1})", method.Code, method.Description));
                 }
                 Console.WriteLine("<optional> can be left empty, or may be set to:");
+                Console.WriteLine("\tC - Use Completionist (False by default)");
                 Console.WriteLine("\tJ - Use Jumping (False by default)");
+                Console.WriteLine("\tM - Print Map");
                 Environment.Exit(0);
             }
 
@@ -42,21 +46,19 @@ namespace RobotNavigation
             // check if theres a third argument
             if(args.Length > 2)
             {
-                switch(args[2])
-                {
-                    case "J":
-                        searchMethod.UseJumping = true;
-                        break;
-                    default:
-                        break;
-                }
+                if (args[2].Contains("C"))
+                    searchMethod.Completionist = true;
+                if (args[2].Contains("J"))
+                    searchMethod.UseJumping = true;
+                if (args[2].Contains("M"))
+                    environment.printMap();
             }
 
             // Initialise search method
             searchMethod.Initialise(environment);
-            
+
             // find path
-            List<Link> solution = searchMethod.FindPath();
+            List<Node> solution = searchMethod.FindPath();
 
             if(solution != null )
             {
@@ -76,7 +78,6 @@ namespace RobotNavigation
             s_searchMethods.Add(new GreedyBestFirstSearch());
             s_searchMethods.Add(new AStarSearch());
             s_searchMethods.Add(new LowestCostFirstSearch());
-            //s_searchMethods.Add(new BidirectionalSearch());
         }
 
         private static SearchMethod GetSearchMethod(string code)
@@ -109,27 +110,28 @@ namespace RobotNavigation
 
                 // the first line contains the map size in the format [heigh,width]
                 string[] size = lines[0].Trim(trimChars).Split(',');
-                int width = int.Parse(size[1]);
-                int height = int.Parse(size[0]);
-                Map lMap = new Map(width, height);
+                int mapWidth = int.Parse(size[1]);
+                int mapHeight = int.Parse(size[0]);
 
                 // the second line contains the start position in the format (x,y)
                 string[] start = lines[1].Trim(trimChars).Split(',');
                 int startX = int.Parse(start[0]);
                 int startY = int.Parse(start[1]);
-                lMap.setCell(startX, startY, cellType.START);
+                Cell cellStart = new Cell(startX, startY, CellType.START);
 
                 // the third line contains the end position(s) in the format (x,y) | (x,y)
                 string[] ends = lines[2].Split('|');
+                List<Cell> cellEnds = new List<Cell>();
                 foreach (string end in ends)
                 {
                     string[] endPos = end.Trim(trimChars).Split(',');
                     int endX = int.Parse(endPos[0]);
                     int endY = int.Parse(endPos[1]);
-                    lMap.setCell(endX, endY, cellType.END);
+                    cellEnds.Add(new Cell(endX, endY, CellType.END));
                 }
 
                 // the remaining lines contain the walls in the format (startX, startY, width, height)
+                List<Cell> cellWalls = new List<Cell>();
                 for (int i = 3; i < lines.Length; i++)
                 {
                     string[] wall = lines[i].Trim(trimChars).Split(',');
@@ -141,12 +143,12 @@ namespace RobotNavigation
                     {
                         for (int y = wallY; y < wallY + wallHeight; y++)
                         {
-                            lMap.setCell(x, y, cellType.WALL);
+                            cellWalls.Add(new Cell(x, y, CellType.WALL));
                         }
                     }
                 }
 
-
+                Map lMap = new Map(width: mapWidth, height: mapHeight, start: cellStart, ends: cellEnds, walls: cellWalls);
                 return lMap;
             }
             catch(FileNotFoundException)
@@ -167,19 +169,22 @@ namespace RobotNavigation
             return null;
         }
 
-        private static void PrintList(List<Link> l)
+        private static void PrintList(List<Node> l)
         {
             string s = string.Empty;
             int temp;
-            foreach (Link i in l)
+            foreach (Node i in l)
             {
-                s += i.Instruction.ToString().ToLower();
-                if(i.Cost > 1)
+                if (i.Connection != null)
                 {
-                    temp = (int)Math.Sqrt(i.Cost);
-                    s += "(" + temp.ToString() + ")";
+                    s += i.Connection.Direction.ToString().ToLower();
+                    if (i.Connection.Cost > 1)
+                    {
+                        temp = (int)Math.Sqrt(i.Connection.Cost)+1;
+                        s += "(" + temp.ToString() + ")";
+                    }
+                    s += ", ";
                 }
-                s += ", ";
             }
             s = s.TrimEnd(' ').TrimEnd(',');
             Console.WriteLine(s);

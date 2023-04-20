@@ -8,68 +8,49 @@ namespace RobotNavigation
 {
     public class Map
     {
-        private readonly int _width;
-        private readonly int _height;
-        private Cell[,] _cells;
-        private Cell _start;
-        private List<Cell> _ends;
-
-        public int Width { get { return _width; } }
-
-        public int Height { get { return _height; } }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public Cell Start { get; private set; }
+        public List<Cell> Ends { get; private set; }
+        public List<Cell> Walls { get; private set; }
         
-        public Cell[,] Cells { get { return _cells; } }
-
-        public Cell Start { get { return _start; } }
-        public List<Cell> Ends { get { return _ends; } }
-        
-        public Map(int width, int height)
+        /// <summary>
+        ///  Constructor for Map, Can only be set once
+        /// </summary>
+        /// <param name="width">Width of the Map</param>
+        /// <param name="height">Height of the Map</param>
+        /// <param name="start">Starting cell</param>
+        /// <param name="ends">Ending Cells</param>
+        /// <param name="walls">Cells with Walls</param>
+        public Map(int width, int height, Cell start, List<Cell> ends, List<Cell> walls)
         {
-            _width = width;
-            _height = height;
-            _cells = new Cell[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    _cells[x, y] = new Cell(x, y, cellType.EMPTY);
-                }
-            }
-            _ends = new List<Cell>();
+            Width = width;
+            Height = height;
+            Start = start;
+            Ends = new List<Cell>(ends);
+            Walls = walls;
         }
 
-        public void setCell(int x, int y, cellType aType)
-        {
-            _cells[x, y].Type = aType;
-            if(aType == cellType.START)
-                _start = _cells[x, y];
-            else if(aType == cellType.END)
-                _ends.Add(_cells[x, y]);
-        }
+        public Map(Map aMap): this(aMap.Width, aMap.Height, aMap.Start, aMap.Ends, aMap.Walls)
+        {}
+
 
         // print the map format into the console
         public void printMap()
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < _width; x++)
+                for (int x = 0; x < Width; x++)
                 {
                     Console.Write("[");
-                    switch (_cells[x, y].Type)
-                    {
-                        case cellType.START:
-                            Console.Write("S");
-                            break;
-                        case cellType.END:
-                            Console.Write("E");
-                            break;
-                        case cellType.WALL:
-                            Console.Write("W");
-                            break;
-                        case cellType.EMPTY:
-                            Console.Write(" ");
-                            break;
-                    }
+                    if(Ends.Any(c => c.X == x && c.Y == y))
+                        Console.Write("E");
+                    else if (Start.X == x && Start.Y == y)
+                        Console.Write("S");
+                    else if (Walls.Any(c => c.X == x && c.Y == y))
+                        Console.Write("W");
+                    else
+                        Console.Write(" ");
                     Console.Write("]");
                 }
                 Console.WriteLine();
