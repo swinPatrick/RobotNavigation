@@ -33,6 +33,7 @@ namespace RobotNavigation
                 Console.WriteLine("<optional> can be left empty, or may be set to:");
                 Console.WriteLine("\tC - Use Completionist (False by default)");
                 Console.WriteLine("\tJ - Use Jumping (False by default)");
+                Console.WriteLine("\tM - Print Map");
                 Environment.Exit(0);
             }
 
@@ -49,6 +50,8 @@ namespace RobotNavigation
                     searchMethod.Completionist = true;
                 if (args[2].Contains("J"))
                     searchMethod.UseJumping = true;
+                if (args[2].Contains("M"))
+                    environment.printMap();
             }
 
             // Initialise search method
@@ -177,7 +180,7 @@ namespace RobotNavigation
                     s += i.Connection.Direction.ToString().ToLower();
                     if (i.Connection.Cost > 1)
                     {
-                        temp = (int)Math.Sqrt(i.Connection.Cost);
+                        temp = (int)Math.Sqrt(i.Connection.Cost)+1;
                         s += "(" + temp.ToString() + ")";
                     }
                     s += ", ";

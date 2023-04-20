@@ -60,35 +60,36 @@ namespace RobotNavigation
 
             for (int i = 0; i < range; i++)
             {
-                int moveDistance = 1;
+                int moveDistance = 0;
                 Instruction lInstruction = (Instruction)i;
                 do
                 {
+                    moveDistance++;
                     // if the instruction is valid, create a new node and add it to the result
                     // new node needs Connection with (parent, instruction). Current cell with instruction applied is the new cell
 
                     Cell lCell = ApplyInstruction(aInstruction: lInstruction, aDistance: moveDistance);
                     if (lCell == null) // will return null if new cell is not valid
-                        break;
+                        continue;
 
-                    for(Node n = parent; n.Connection != null;  n = n.Connection.Parent)
+                    for (Node n = parent; n.Connection != null; n = n.Connection.Parent)
                     {
-                        if(lCell.X == n.X && lCell.Y == n.Y)
+                        if (lCell.X == n.X && lCell.Y == n.Y)
                         {
                             lCell = null;
                             break;
                         }
                     }
-                    if(lCell == null)
+                    if (lCell == null)
                         break;
 
                     // if not, add the new node to the result
-                    Node lNode = new Node(lCell, new Connection(parent, lInstruction));
+                    int cost = (int)Math.Pow(2, moveDistance - 1);
+                    Node lNode = new Node(lCell, new Connection(parent, lInstruction, cost));
 
-                        // create a new state where lNode is Robot, current Node is added
-                        State lState = new State(lNode, GetMap);
+                    // create a new state where lNode is Robot, current Node is added
+                    State lState = new State(lNode, GetMap);
                     result.Add(lState);
-                    moveDistance++;
                 } while (i >= 4 && moveDistance < Math.Max(GetMap.Width, GetMap.Height));
             }
 
@@ -100,11 +101,9 @@ namespace RobotNavigation
             int result = 0;
             // for each node, add Connection.Cost. next cost is connection.parent.cost. repeat until connection.parent is null
             // start at the end node
-            Node currentNode = CurrentNode;
-            while (currentNode != null)
+            for(Node n = CurrentNode; n.Connection != null; n = n.Connection.Parent)
             {
-                result += currentNode.Connection.Cost;
-                currentNode = currentNode.Connection.Parent;
+                result += n.Connection.Cost;
             }
             return result;
         }
