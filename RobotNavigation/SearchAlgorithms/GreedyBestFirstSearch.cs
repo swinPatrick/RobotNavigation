@@ -10,19 +10,19 @@ namespace RobotNavigation
     {
         public GreedyBestFirstSearch() 
         {
-            _code = "GBFS";
-            _description = "Greedy Best-First Search";
+            Code = "GBFS";
+            Description = "Greedy Best-First Search";
         }
 
         // Add list to frontier in the appropriate order
-        internal override void AddListToFrontier(List<RobotScenario> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
             int totalCostI;
             int totalCostJ;
 
             _discovered += aList.Count;
 
-            aList.AddRange(_frontier);
+            aList.AddRange(Frontier);
             
             // sort the list by total cost
             for(int i = 0; i < aList.Count; i++)
@@ -35,26 +35,26 @@ namespace RobotNavigation
                     totalCostJ = CalculateCost(aList.ElementAt(j));
                     if (totalCostJ < totalCostI)
                     {
-                        RobotScenario temp = aList.ElementAt(i);
+                        State temp = aList.ElementAt(i);
                         aList[i] = aList.ElementAt(j);
                         aList[j] = temp;
                     }
                 }
             }
 
-            _frontier.Clear();
-            foreach(RobotScenario temp in aList)
+            Frontier.Clear();
+            foreach(State temp in aList)
             { 
-                _frontier.AddLast(temp);
+                Frontier.Add(temp);
             }
         }
 
-        private int CalculateCost(RobotScenario aScenario)
+        private int CalculateCost(State aState)
         {
-            int lLowestCost = _map.Width + _map.Height;
-            foreach(Cell endCell in _map.Ends)
+            int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
+            foreach(Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aScenario.Robot.X - endCell.X) + Math.Abs(aScenario.Robot.Y - endCell.Y);
+                int lCost = Math.Abs(aState.Robot.X - endCell.X) + Math.Abs(aState.Robot.Y - endCell.Y);
                 if (lCost < lLowestCost)
                 {
                     lLowestCost = lCost;
