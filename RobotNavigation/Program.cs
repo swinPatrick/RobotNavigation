@@ -170,13 +170,16 @@ namespace RobotNavigation
             int temp;
             foreach (Node i in l)
             {
-                s += i.Connection.Direction.ToString().ToLower();
-                if(i.Connection.Cost > 1)
+                if (i.Connection != null)
                 {
-                    temp = (int)Math.Sqrt(i.Connection.Cost);
-                    s += "(" + temp.ToString() + ")";
+                    s += i.Connection.Direction.ToString().ToLower();
+                    if (i.Connection.Cost > 1)
+                    {
+                        temp = (int)Math.Sqrt(i.Connection.Cost);
+                        s += "(" + temp.ToString() + ")";
+                    }
+                    s += ", ";
                 }
-                s += ", ";
             }
             s = s.TrimEnd(' ').TrimEnd(',');
             Console.WriteLine(s);

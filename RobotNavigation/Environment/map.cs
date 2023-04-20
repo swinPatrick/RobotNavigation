@@ -27,7 +27,7 @@ namespace RobotNavigation
             Width = width;
             Height = height;
             Start = start;
-            Ends = ends;
+            Ends = new List<Cell>(ends);
             Walls = walls;
         }
 

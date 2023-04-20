@@ -21,7 +21,7 @@ namespace RobotNavigation
         private Coordinate Coords;
         public int X { get { return Coords.X; } }
         public int Y { get { return Coords.Y; } }
-        public bool Visited { get; set; }
+        //public bool Visited { get; set; }
 
         /// <summary>
         ///  Constructor for Cell
@@ -30,10 +30,12 @@ namespace RobotNavigation
         public Cell(Coordinate aCoords)
         {
             Coords = aCoords;
-            Visited = false;
+            //Visited = false;
         }
 
+        // createa  start cell
         public Cell(int startX, int startY, CellType sTART): this(new Coordinate(startX, startY, sTART))
         {}
+
     }
 }
