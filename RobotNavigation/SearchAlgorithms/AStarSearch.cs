@@ -20,52 +20,56 @@ namespace RobotNavigation
 
             _discovered += aList.Count;
 
-            List<State> lList = new List<State>(Frontier);
-
-            foreach (State aScenario in aList)
+            foreach (State aState in aList)
             {
+                // set the heuristic value for the new location
+                aState.CurrentNode.Heuristic = CalculateHeuristic(aState);
+
                 // insert the scenario into the frontier in the correct position
                 // based on the cost of the path travelled so far + the distance to the closest end cell
-                newScenarioCost = CalculateCost(aScenario);
+
+                newScenarioCost = CalculateCost(aState);
                 bool inserted = false;
-                for (int i = 0; i < lList.Count; i++)
+                State lElement;
+                for (int i = 0; i < Frontier.Count; i++)
                 {
-                    State lElement = lList.ElementAt(i);
+                    lElement = Frontier.ElementAt(i);
                     listScenarioCost = CalculateCost(lElement);
                     if (listScenarioCost > newScenarioCost)
                     {
-                        lList.Insert(i, aScenario);
+                        Frontier.Insert(i, aState);
                         inserted = true;
                         break;
                     }
                 }
                 if (!inserted)
                 {
-                    lList.Add(aScenario);
+                    Frontier.Add(aState);
                 }
             }
-
-            Frontier = null;
-            Frontier = new List<State>(lList);
         }
 
-        private int CalculateCost(State aState)
+        private int CalculateHeuristic(State aState)
         {
             // Calculate the cost of a state based on the cost of the path travelled so far + the distance to the closest end cell
             // furthest distance possible is width + height of map
-            int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
+            int heuristic = aState.GetMap.Width + aState.GetMap.Height;
             // check all end cells and find the one with the lowest distance to the current node
             foreach (Cell endCell in aState.GetMap.Ends)
             {
                 int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
-                if (lCost < lLowestCost)
+                if (lCost < heuristic)
                 {
-                    lLowestCost = lCost;
+                    heuristic = lCost;
                 }
             }
+            return heuristic;
+        }
 
+        private int CalculateCost(State aState)
+        {
             // return cost of path travelled so far + distance to closest end cell
-            return aState.CalculatePathCost() + lLowestCost;
+            return aState.CalculatePathCost() + aState.CurrentNode.Heuristic;
         }
     }
 }
