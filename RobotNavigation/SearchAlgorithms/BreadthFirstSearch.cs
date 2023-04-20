@@ -15,13 +15,10 @@ namespace RobotNavigation
         }
 
         // Add list to frontier in the appropriate order (FIFO)
-        internal override void AddListToFrontier(List<Node> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
-            foreach(Node lState in aList)
-            {
-                Frontier.Add(lState);
-                _discovered++;
-            }
+            Frontier.AddRange(aList);
+            _discovered += aList.Count;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace RobotNavigation
             // args contains:
             //  [0] is the name of the map file
             //  [1] is the method used to find the path
+            //
+            //  [2] is optional extras
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: RobotNavigation.exe <file name> <search method> <optional>");
@@ -170,13 +172,16 @@ namespace RobotNavigation
             int temp;
             foreach (Node i in l)
             {
-                s += i.Connection.Direction.ToString().ToLower();
-                if(i.Connection.Cost > 1)
+                if (i.Connection != null)
                 {
-                    temp = (int)Math.Sqrt(i.Connection.Cost);
-                    s += "(" + temp.ToString() + ")";
+                    s += i.Connection.Direction.ToString().ToLower();
+                    if (i.Connection.Cost > 1)
+                    {
+                        temp = (int)Math.Sqrt(i.Connection.Cost);
+                        s += "(" + temp.ToString() + ")";
+                    }
+                    s += ", ";
                 }
-                s += ", ";
             }
             s = s.TrimEnd(' ').TrimEnd(',');
             Console.WriteLine(s);

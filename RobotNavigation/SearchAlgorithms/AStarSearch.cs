@@ -15,7 +15,7 @@ namespace RobotNavigation
         }
 
         // Add list to frontier in the appropriate order
-        internal override void AddListToFrontier(List<Node> aList)
+        internal override void AddListToFrontier(List<State> aList)
         {
             int totalCostI;
             int totalCostJ;
@@ -54,7 +54,7 @@ namespace RobotNavigation
             int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
             foreach(Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aState.Robot.X - endCell.X) + Math.Abs(aState.Robot.Y - endCell.Y);
+                int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
                 if (lCost < lLowestCost)
                 {
                     lLowestCost = lCost;

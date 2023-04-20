@@ -45,7 +45,6 @@ namespace RobotNavigation
                 // remove first node from frontier
                 Frontier.Remove(lState);
 
-                lState.Visit();
 
                 // increment searched cells
                 _searched++;
@@ -57,11 +56,14 @@ namespace RobotNavigation
                     //create a list of nodes. the final node will be robot, and the first node will be the node with the parent of null
                     List<Node> Path = new List<Node>();
                     Node currentNode = lState.CurrentNode;
-                    while (currentNode != null)
+                    while (currentNode.Connection != null)
                     {
                         Path.Insert(0, currentNode);
                         currentNode = currentNode.Connection.Parent;
                     }
+                    // The final node does not have a parent.
+                    Path.Insert(0, currentNode);
+                    return Path;
                 }
 
                 // determine what moves can be done

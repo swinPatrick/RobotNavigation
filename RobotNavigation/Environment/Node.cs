@@ -21,11 +21,8 @@ namespace RobotNavigation
             Connection = aConnection;
         }
 
-        public Node(Cell aCell, Connection connection)
-        {
-            Cell=aCell;
-            Connection = connection;
-        }
+        public Node(Cell aCell, Connection aConnection) :this(aCell, 0, aConnection)
+        { }
 
     }
 }
