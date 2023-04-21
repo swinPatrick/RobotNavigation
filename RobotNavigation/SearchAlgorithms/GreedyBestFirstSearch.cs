@@ -17,35 +17,34 @@ namespace RobotNavigation
         // Add list to frontier in the appropriate order
         internal override void AddListToFrontier(List<State> aList)
         {
-            int totalCostI;
-            int totalCostJ;
+            int newStateCost;
+            int lStateInListCost;
 
             _discovered += aList.Count;
 
-            aList.AddRange(Frontier);
-            
-            // sort the list by total cost
-            for(int i = 0; i < aList.Count; i++)
+            foreach (State newState in aList)
             {
-                for (int j = i + 1; j < aList.Count; j++)
+                // set the heuristic value for the new location
+                newState.CurrentNode.Heuristic = CalculateCost(newState);
+
+                newStateCost = newState.CurrentNode.Heuristic;
+
+                bool inserted = false;
+                for (int i = 0; i < Frontier.Count; i++)
                 {
-                    // calculate cost of element at i
-                    totalCostI = CalculateCost(aList.ElementAt(i));
-                    // calculate cost of element at j
-                    totalCostJ = CalculateCost(aList.ElementAt(j));
-                    if (totalCostJ < totalCostI)
+                    lStateInListCost = Frontier.ElementAt(i).CurrentNode.Heuristic;
+                    if (lStateInListCost > newStateCost)
                     {
-                        State temp = aList.ElementAt(i);
-                        aList[i] = aList.ElementAt(j);
-                        aList[j] = temp;
+                        Frontier.Insert(i, newState);
+                        inserted = true;
+                        break;
                     }
                 }
-            }
-
-            Frontier.Clear();
-            foreach(State temp in aList)
-            { 
-                Frontier.Add(temp);
+                // if it reaches the end, it's got the highest cost.
+                if (!inserted)
+                {
+                    Frontier.Add(newState);
+                }
             }
         }
 

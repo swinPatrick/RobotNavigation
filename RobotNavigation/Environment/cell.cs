@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
+    /// <summary>
+    /// Defines the type of cells that can be used
+    /// </summary>
     public enum CellType
     {
         START,
@@ -17,25 +20,22 @@ namespace RobotNavigation
 
     public class Cell
     {
-
-        public Coordinate Coords { get; private set; }
-        public int X { get { return Coords.X; } }
-        public int Y { get { return Coords.Y; } }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public CellType CellType { get; private set; }
         //public bool Visited { get; set; }
 
         /// <summary>
-        ///  Constructor for Cell
+        ///     
         /// </summary>
-        /// <param name="aCoords"></param>
-        public Cell(Coordinate aCoords)
+        /// <param name="aX">X coordinate of Cell</param>
+        /// <param name="aY">Y coordinate of Cell</param>
+        /// <param name="aCellType">Type of Cell</param>
+        public Cell(int aX, int aY, CellType aCellType)
         {
-            Coords = aCoords;
-            //Visited = false;
+            X = aX;
+            Y = aY;
+            CellType = aCellType;
         }
-
-        // createa  start cell
-        public Cell(int startX, int startY, CellType sTART): this(new Coordinate(startX, startY, sTART))
-        {}
-
     }
 }

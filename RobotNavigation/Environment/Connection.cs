@@ -9,8 +9,6 @@ namespace RobotNavigation
 {
     public class Connection
     {
-        private Instruction instruction;
-
         public Node Parent { get; set; }
         public Instruction Direction { get; set; }
         public int Cost { get; set; }
