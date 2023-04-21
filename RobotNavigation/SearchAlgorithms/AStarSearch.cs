@@ -15,36 +15,50 @@ namespace RobotNavigation
         // Add list to frontier in the appropriate order
         internal override void AddListToFrontier(List<State> aList)
         {
-            int newScenarioCost;
-            int listScenarioCost;
+            int newStateCost;
+            int lStateInListCost;
 
             _discovered += aList.Count;
 
-            foreach (State aState in aList)
+            foreach (State newState in aList)
             {
                 // set the heuristic value for the new location
-                aState.CurrentNode.Heuristic = CalculateHeuristic(aState);
+                newState.CurrentNode.Heuristic = CalculateHeuristic(newState);
 
-                // insert the scenario into the frontier in the correct position
-                // based on the cost of the path travelled so far + the distance to the closest end cell
+                newStateCost = newState.CurrentNode.Heuristic;
 
-                newScenarioCost = CalculateCost(aState);
+                // if newState is already in Frontier, and came from same direction
+                // keep the state which has the lowest heuristic from that direction only
+                State lStateToRemove = null;
+                foreach(State lState in Frontier.Where(s =>
+                    newState.CurrentNode.X == s.CurrentNode.X && 
+                    newState.CurrentNode.Y == s.CurrentNode.Y &&
+                    (int)newState.CurrentNode.Connection.Direction % 4 == (int)s.CurrentNode.Connection.Direction % 4))
+                {
+                    // if new state is cheapest way to reach cell from that direction, delete the old state.
+                    if (newState.CurrentNode.Heuristic < lState.CurrentNode.Heuristic)
+                        lStateToRemove = lState;
+                }
+                if(lStateToRemove != null)
+                {
+                    Frontier.Remove(lStateToRemove);
+                }
+
                 bool inserted = false;
-                State lElement;
                 for (int i = 0; i < Frontier.Count; i++)
                 {
-                    lElement = Frontier.ElementAt(i);
-                    listScenarioCost = CalculateCost(lElement);
-                    if (listScenarioCost > newScenarioCost)
+                    lStateInListCost = Frontier.ElementAt(i).CurrentNode.Heuristic;
+                    if (lStateInListCost > newStateCost)
                     {
-                        Frontier.Insert(i, aState);
+                        Frontier.Insert(i, newState);
                         inserted = true;
                         break;
                     }
                 }
+                // if it reaches the end, it's got the highest cost.
                 if (!inserted)
                 {
-                    Frontier.Add(aState);
+                    Frontier.Add(newState);
                 }
             }
         }
@@ -63,7 +77,7 @@ namespace RobotNavigation
                     heuristic = lCost;
                 }
             }
-            return heuristic;
+            return heuristic + aState.CalculatePathCost();
         }
 
         private int CalculateCost(State aState)

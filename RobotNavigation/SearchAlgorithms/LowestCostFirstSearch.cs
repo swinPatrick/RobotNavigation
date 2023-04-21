@@ -22,33 +22,27 @@ namespace RobotNavigation
 
             _discovered += aList.Count;
 
-            List<State> lList = new List<State>(Frontier);
-
             foreach (State aScenario in aList)
             {
                 // insert the scenario into the frontier in the correct position
                 // based on the cost of the path travelled so far + the distance to the closest end cell
-                newScenarioCost = aScenario.CalculatePathCost();
+                newScenarioCost = CalculateCost(aScenario);
                 bool inserted = false;
-                for (int i = 0; i < lList.Count; i++)
+                for (int i = 0; i < Frontier.Count; i++)
                 {
-                    State lElement = lList.ElementAt(i);
-                    listScenarioCost = CalculateCost(lElement);
+                    listScenarioCost = CalculateCost(Frontier.ElementAt(i));
                     if (listScenarioCost > newScenarioCost)
                     {
-                        lList.Insert(i, aScenario);
+                        Frontier.Insert(i, aScenario);
                         inserted = true;
                         break;
                     }
                 }
                 if (!inserted)
                 {
-                    lList.Add(aScenario);
+                    Frontier.Add(aScenario);
                 }
             }
-
-            Frontier = null;
-            Frontier = new List<State>(lList);
         }
 
         private int CalculateCost(State aScenario)

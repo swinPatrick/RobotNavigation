@@ -18,11 +18,8 @@ namespace RobotNavigation
         internal override void AddListToFrontier(List<State> aList)
         {
 
-            for( int i = aList.Count - 1; i >= 0; i--)
-            {
-                Frontier.Insert(0,aList.ElementAt(i));
-                _discovered++;
-            }
+            _discovered += aList.Count;
+            Frontier.InsertRange(0, aList);
         }
     }
 }
