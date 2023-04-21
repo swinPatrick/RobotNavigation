@@ -14,6 +14,8 @@ namespace RobotNavigation
         private static List<SearchMethod> s_searchMethods;
         static void Main(string[] args)
         {
+            bool printMap = false;
+
             // Create list of search methods
             InitSearchMethods();
 
@@ -51,7 +53,7 @@ namespace RobotNavigation
                 if (args[2].Contains("J"))
                     searchMethod.UseJumping = true;
                 if (args[2].Contains("M"))
-                    environment.printMap();
+                    printMap = true;
             }
 
             // Initialise search method
@@ -62,6 +64,8 @@ namespace RobotNavigation
 
             if(solution != null )
             {
+                if(printMap) 
+                    environment.printMap(solution);
                 PrintList(solution);
             }
             else
@@ -180,7 +184,10 @@ namespace RobotNavigation
                     s += i.Connection.Direction.ToString().ToLower();
                     if (i.Connection.Cost > 1)
                     {
-                        temp = (int)Math.Sqrt(i.Connection.Cost)+1;
+                        // temp is difference between i.cell and i.connection.parent.cell
+                        temp = i.Cell.X - i.Connection.Parent.Cell.X;
+                        if (temp == 0)
+                            temp = i.Cell.Y - i.Connection.Parent.Cell.Y;
                         s += "(" + temp.ToString() + ")";
                     }
                     s += ", ";

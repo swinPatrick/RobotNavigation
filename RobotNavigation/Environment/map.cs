@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
@@ -13,7 +11,7 @@ namespace RobotNavigation
         public Cell Start { get; private set; }
         public List<Cell> Ends { get; private set; }
         public List<Cell> Walls { get; private set; }
-        
+
         /// <summary>
         ///  Constructor for Map, Can only be set once
         /// </summary>
@@ -31,31 +29,49 @@ namespace RobotNavigation
             Walls = walls;
         }
 
-        public Map(Map aMap): this(aMap.Width, aMap.Height, aMap.Start, aMap.Ends, aMap.Walls)
-        {}
-
+        public Map(Map aMap) : this(aMap.Width, aMap.Height, aMap.Start, aMap.Ends, aMap.Walls)
+        { }
 
         // print the map format into the console
-        public void printMap()
+        public void printMap(List<Node> aPath = null)
         {
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
                     Console.Write("[");
-                    if(Ends.Any(c => c.X == x && c.Y == y))
+                    if (Ends.Any(c => c.X == x && c.Y == y))
                         Console.Write("E");
                     else if (Start.X == x && Start.Y == y)
                         Console.Write("S");
                     else if (Walls.Any(c => c.X == x && c.Y == y))
                         Console.Write("W");
-                    else
-                        Console.Write(" ");
+                    else if (aPath != null && aPath.Any(c => c.X == x && c.Y == y))
+                    {
+                        switch(aPath.First(c => c.X == x && c.Y == y).Connection.Direction)
+                        {
+                            case Instruction.UP:
+                                Console.Write("^");
+                                break;
+                            case Instruction.LEFT:
+                                Console.Write("<");
+                                break;
+                            case Instruction.DOWN:
+                                Console.Write("V");
+                                break;
+                            case Instruction.RIGHT:
+                                Console.Write('>');
+                                break;
+                            default:
+                                Console.Write(".");
+                                break;
+                        }
+                    }
+                    else Console.Write(" ");
                     Console.Write("]");
                 }
                 Console.WriteLine();
             }
         }
-
     }
 }

@@ -18,7 +18,7 @@ namespace RobotNavigation
     public class Cell
     {
 
-        private Coordinate Coords;
+        public Coordinate Coords { get; private set; }
         public int X { get { return Coords.X; } }
         public int Y { get { return Coords.Y; } }
         //public bool Visited { get; set; }

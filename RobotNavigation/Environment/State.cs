@@ -71,7 +71,11 @@ namespace RobotNavigation
                     Cell lCell = ApplyInstruction(aInstruction: lInstruction, aDistance: moveDistance);
                     if (lCell == null) // will return null if new cell is not valid
                         continue;
+                    // need seperate check for bounds as they apply to Jumping instructions. if the cell is a wall, it can continue to jump over it, but it cannot jump out of bounds
+                    if (!InBounds(lCell))
+                        break;
 
+                    // check if the new cell is at the same location of any of its parent nodes
                     for (Node n = parent; n.Connection != null; n = n.Connection.Parent)
                     {
                         if (lCell.X == n.X && lCell.Y == n.Y)
@@ -80,6 +84,7 @@ namespace RobotNavigation
                             break;
                         }
                     }
+
                     if (lCell == null)
                         break;
 
@@ -87,6 +92,8 @@ namespace RobotNavigation
                     int cost = (int)Math.Pow(2, moveDistance - 1);
                     Node lNode = new Node(lCell, new Connection(parent, lInstruction, cost));
 
+                    if (!InstructionSensible(lNode))
+                        continue;
                     // create a new state where lNode is Robot, current Node is added
                     State lState = new State(lNode, GetMap);
                     result.Add(lState);
@@ -141,15 +148,37 @@ namespace RobotNavigation
             }
             // check new coordinate is valid
             if ((lX == GetMap.Start.X && lY == GetMap.Start.Y) // it's the start
-                || !(lX >= 0 && lX < GetMap.Width)    // out of x bounds
-                || !(lY >= 0 && lY < GetMap.Height)    // out of y bounds
                 || GetMap.Walls.Any(c => c.X == lX && c.Y == lY)) // if it's a wall
                 return null;
+
+            // check if new coordinate makes sense
+
 
             // cell type can't be start, and walls have already been checked. so it is either an end or empty.
             CellType cellType = GetMap.Ends.Any(c => c.X == lX && c.Y == lY) ? CellType.END : CellType.EMPTY;
 
             return new Cell(new Coordinate(lX, lY, cellType));
+        }
+
+        private bool InBounds(Cell aCell)
+        {
+            return ((aCell.X >= 0 && aCell.X < GetMap.Width)    // out of x bounds
+                && (aCell.Y >= 0 && aCell.Y < GetMap.Height));    // out of y bounds
+        }
+
+        private bool InstructionSensible(Node n)
+        {
+            bool sensible = true;
+            if(n.Connection == null || n.Connection.Parent.Connection == null)
+                return sensible;
+            Instruction currentInstruction = n.Connection.Direction;
+            Instruction parentInstruction = n.Connection.Parent.Connection.Direction;
+            if (
+                (int)currentInstruction > 3 && currentInstruction == parentInstruction || // if the directions are both jump and same instruction
+                (int)currentInstruction + 2 % 4 == (int)parentInstruction % 4          // if the directions are opposite
+                )
+                sensible = false;
+            return sensible;
         }
     }
 }

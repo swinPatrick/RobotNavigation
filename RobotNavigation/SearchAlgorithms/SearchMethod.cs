@@ -49,6 +49,7 @@ namespace RobotNavigation
                 // increment searched cells
                 _searched++;
 
+
                 // check to see if robot is at an end
                 if (lState.IsSolved(Completionist))
                 {
