@@ -8,7 +8,7 @@ namespace RobotNavigation
     {
         public AStarSearch()
         {
-            Code = "A*";
+            Code = "AS";
             Description = "A* Search";
         }
 
