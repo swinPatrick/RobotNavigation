@@ -22,8 +22,9 @@ namespace RobotNavigation
             // args contains:
             //  [0] is the name of the map file
             //  [1] is the method used to find the path
-            //
             //  [2] is optional extras
+
+            // Output how to use the program if there are not enough arguments
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: RobotNavigation.exe <file name> <search method> <optional>");
@@ -45,7 +46,7 @@ namespace RobotNavigation
             // get search method
             SearchMethod searchMethod = GetSearchMethod(args[1]);
 
-            // check if theres a third argument
+            // Check if any optional parameters have been set
             if(args.Length > 2)
             {
                 if (args[2].Contains("C"))

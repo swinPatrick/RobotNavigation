@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
@@ -34,16 +31,19 @@ namespace RobotNavigation
 
         private int CalculateCost(State aState)
         {
+            // Max cost is the width + height of the map
             int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
+            // Check all ends and find the one with the lowest cost
             foreach(Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
-                if (lCost < lLowestCost)
+                int endCost = 
+                    Math.Abs(aState.CurrentNode.X - endCell.X) + 
+                    Math.Abs(aState.CurrentNode.Y - endCell.Y);
+                if (endCost < lLowestCost)
                 {
-                    lLowestCost = lCost;
+                    lLowestCost = endCost;
                 }
             }
-
             // return cost distance to closest end cell
             return lLowestCost;
         }

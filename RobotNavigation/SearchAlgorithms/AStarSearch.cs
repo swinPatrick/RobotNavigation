@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RobotNavigation
 {
@@ -20,7 +19,7 @@ namespace RobotNavigation
             foreach (State newState in aList)
             {
                 // set the heuristic value for the new location
-                newState.CurrentNode.Heuristic = CalculateHeuristic(newState);
+                newState.CurrentNode.Heuristic = CalculateCost(newState);
 
                 // search based on the heuristic value
                 int index = Frontier.BinarySearch(newState, new StateComparer());
@@ -30,20 +29,23 @@ namespace RobotNavigation
             }
         }
 
-        private int CalculateHeuristic(State aState)
+        private int CalculateCost(State aState)
         {
-            // Calculate the cost of a state based on the cost of the path travelled so far + the distance to the closest end cell
+            // Calculate distance to end
             // furthest distance possible is width + height of map
             int heuristic = aState.GetMap.Width + aState.GetMap.Height;
-            // check all end cells and find the one with the lowest distance to the current node
+            // check all end cells and find the one with the lowest distance
             foreach (Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
-                if (lCost < heuristic)
+                int endCost = 
+                    Math.Abs(aState.CurrentNode.X - endCell.X) + 
+                    Math.Abs(aState.CurrentNode.Y - endCell.Y);
+                if (endCost < heuristic)
                 {
-                    heuristic = lCost;
+                    heuristic = endCost;
                 }
             }
+            // add path cost to heuristic
             return heuristic + aState.CalculatePathCost();
         }
     }

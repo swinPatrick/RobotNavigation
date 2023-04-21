@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RobotNavigation.Cell">
-    <Position X="1" Y="7.25" Width="2" />
+    <Position X="1" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
       <FileName>Environment\Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RobotNavigation.Connection">
-    <Position X="3.75" Y="7.25" Width="2" />
+    <Position X="3.75" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAACAAQBAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Environment\Connection.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RobotNavigation.Map">
-    <Position X="7.5" Y="4.5" Width="2" />
+    <Position X="7.5" Y="4" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAIAABCAAAEAAAAAAAEAAAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>Environment\Map.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RobotNavigation.Node">
-    <Position X="2.5" Y="4.5" Width="2" />
+    <Position X="2.5" Y="3.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAEAAABAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
       <FileName>Environment\Node.cs</FileName>
@@ -38,7 +38,7 @@
   <Class Name="RobotNavigation.AStarSearch">
     <Position X="22" Y="5.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAQACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SearchAlgorithms\AStarSearch.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -22,7 +22,7 @@ namespace RobotNavigation
             foreach (State newState in aList)
             {
                 // set the heuristic value for the new location
-                newState.CurrentNode.Heuristic = CalculateHeuristic(newState);
+                newState.CurrentNode.Heuristic = CalculateCost(newState);
 
                 // search based on the heuristic value
                 int index = Frontier.BinarySearch(newState, new StateComparer());
@@ -32,7 +32,7 @@ namespace RobotNavigation
             }
         }
 
-        private int CalculateHeuristic(State aScenario)
+        private int CalculateCost(State aScenario)
         {
             // return cost of path travelled so far
             return aScenario.CalculatePathCost();
