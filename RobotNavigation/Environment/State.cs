@@ -118,7 +118,8 @@ namespace RobotNavigation
         internal int CalculatePathCost()
         {
             int result = 0;
-            // for each node, add Connection.Cost. next cost is connection.parent.cost. repeat until connection.parent is null
+            // for each node, add Connection.Cost. next cost is connection.parent.cost.
+            // repeat until connection is null
             // start at the end node
             for(Node n = CurrentNode; n.Connection != null; n = n.Connection.Parent)
             {
@@ -191,6 +192,14 @@ namespace RobotNavigation
                 )
                 sensible = false;
             return sensible;
+        }
+    }
+
+    public class StateComparer : IComparer<State>
+    {
+        public int Compare(State x, State y)
+        {
+            return x.CurrentNode.Heuristic.CompareTo(y.CurrentNode.Heuristic);
         }
     }
 }

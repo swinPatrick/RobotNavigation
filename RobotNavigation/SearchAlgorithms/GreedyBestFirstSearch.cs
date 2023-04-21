@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RobotNavigation
 {
@@ -17,9 +14,6 @@ namespace RobotNavigation
         // Add list to frontier in the appropriate order
         internal override void AddListToFrontier(List<State> aList)
         {
-            int newStateCost;
-            int lStateInListCost;
-
             _discovered += aList.Count;
 
             foreach (State newState in aList)
@@ -27,39 +21,29 @@ namespace RobotNavigation
                 // set the heuristic value for the new location
                 newState.CurrentNode.Heuristic = CalculateCost(newState);
 
-                newStateCost = newState.CurrentNode.Heuristic;
+                // search based on the heuristic value
+                int index = Frontier.BinarySearch(newState, new StateComparer());
+                if(index < 0 ) { index = ~index; }
 
-                bool inserted = false;
-                for (int i = 0; i < Frontier.Count; i++)
-                {
-                    lStateInListCost = Frontier.ElementAt(i).CurrentNode.Heuristic;
-                    if (lStateInListCost > newStateCost)
-                    {
-                        Frontier.Insert(i, newState);
-                        inserted = true;
-                        break;
-                    }
-                }
-                // if it reaches the end, it's got the highest cost.
-                if (!inserted)
-                {
-                    Frontier.Add(newState);
-                }
+                Frontier.Insert(index, newState);
             }
         }
 
         private int CalculateCost(State aState)
         {
+            // Max cost is the width + height of the map
             int lLowestCost = aState.GetMap.Width + aState.GetMap.Height;
+            // Check all ends and find the one with the lowest cost
             foreach(Cell endCell in aState.GetMap.Ends)
             {
-                int lCost = Math.Abs(aState.CurrentNode.X - endCell.X) + Math.Abs(aState.CurrentNode.Y - endCell.Y);
-                if (lCost < lLowestCost)
+                int endCost = 
+                    Math.Abs(aState.CurrentNode.X - endCell.X) + 
+                    Math.Abs(aState.CurrentNode.Y - endCell.Y);
+                if (endCost < lLowestCost)
                 {
-                    lLowestCost = lCost;
+                    lLowestCost = endCost;
                 }
             }
-
             // return cost distance to closest end cell
             return lLowestCost;
         }
