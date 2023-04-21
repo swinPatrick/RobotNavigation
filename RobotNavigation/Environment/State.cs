@@ -4,6 +4,18 @@ using System.Linq;
 
 namespace RobotNavigation
 {
+    public enum Instruction
+    {
+        UP,
+        LEFT,
+        DOWN,
+        RIGHT,
+        JUMP_UP,
+        JUMP_LEFT,
+        JUMP_DOWN,
+        JUMP_RIGHT
+    }
+
     public class State
     {
         public Node CurrentNode { get; private set; }
@@ -157,7 +169,7 @@ namespace RobotNavigation
             // cell type can't be start, and walls have already been checked. so it is either an end or empty.
             CellType cellType = GetMap.Ends.Any(c => c.X == lX && c.Y == lY) ? CellType.END : CellType.EMPTY;
 
-            return new Cell(new Coordinate(lX, lY, cellType));
+            return new Cell(lX, lY, cellType);
         }
 
         private bool InBounds(Cell aCell)
