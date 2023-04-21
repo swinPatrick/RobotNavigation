@@ -17,9 +17,6 @@ namespace RobotNavigation
         // Add list to frontier in the appropriate order
         internal override void AddListToFrontier(List<State> aList)
         {
-            int newStateCost;
-            int lStateInListCost;
-
             _discovered += aList.Count;
 
             foreach (State newState in aList)
@@ -27,24 +24,11 @@ namespace RobotNavigation
                 // set the heuristic value for the new location
                 newState.CurrentNode.Heuristic = CalculateCost(newState);
 
-                newStateCost = newState.CurrentNode.Heuristic;
+                // search based on the heuristic value
+                int index = Frontier.BinarySearch(newState, new StateComparer());
+                if(index < 0 ) { index = ~index; }
 
-                bool inserted = false;
-                for (int i = 0; i < Frontier.Count; i++)
-                {
-                    lStateInListCost = Frontier.ElementAt(i).CurrentNode.Heuristic;
-                    if (lStateInListCost > newStateCost)
-                    {
-                        Frontier.Insert(i, newState);
-                        inserted = true;
-                        break;
-                    }
-                }
-                // if it reaches the end, it's got the highest cost.
-                if (!inserted)
-                {
-                    Frontier.Add(newState);
-                }
+                Frontier.Insert(index, newState);
             }
         }
 

@@ -193,4 +193,12 @@ namespace RobotNavigation
             return sensible;
         }
     }
+
+    public class StateComparer : IComparer<State>
+    {
+        public int Compare(State x, State y)
+        {
+            return x.CurrentNode.Heuristic.CompareTo(y.CurrentNode.Heuristic);
+        }
+    }
 }

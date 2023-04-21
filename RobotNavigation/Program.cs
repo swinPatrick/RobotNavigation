@@ -188,6 +188,7 @@ namespace RobotNavigation
                         temp = i.Cell.X - i.Connection.Parent.Cell.X;
                         if (temp == 0)
                             temp = i.Cell.Y - i.Connection.Parent.Cell.Y;
+                        temp = Math.Abs(temp);
                         s += "(" + temp.ToString() + ")";
                     }
                     s += ", ";
