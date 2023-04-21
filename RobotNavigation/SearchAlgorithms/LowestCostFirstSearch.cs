@@ -10,7 +10,7 @@ namespace RobotNavigation
     {
         public LowestCostFirstSearch() 
         {
-            Code = "LCF";
+            Code = "CUS1";
             Description = "Lowest Cost First Search";
         }
 
